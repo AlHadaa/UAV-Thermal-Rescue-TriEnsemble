@@ -7,7 +7,7 @@
 [![ROC-AUC](https://img.shields.io/badge/ROC_AUC-98.17%25-blue)]()
 [![Survivor Recall](https://img.shields.io/badge/Survivor_Recall-96.34%25-red)]()
 
-**إعداد وتطوير المهندس:** **أحمد المصقري (Ahmed Al-Masqari)**
+**إعداد وتطوير المهندس:** **أحمد المصقري (Eng. Ahmed Al-Masqari)**
 
 ---
 
@@ -61,25 +61,30 @@ Survivor (Person)     0.9607    0.9634    0.9620       355
 
 ## 📈 المخططات والنتائج البصرية (Visual Diagnostics)
 
-### 1. منحنيات التعلم الموجهة بصناديق الإحاطة (Box-Guided Learning Curves)
-توضح استقرار التدريب وهبوط الخسارة المشتركة (التصنيف + التحديد المكاني `20×20`) عبر مرحلتي استخلاص الخصائص والضبط الدقيق (`Warmup Fine-Tuning`):
+### 1. عينات الصور الحرارية وخرائط الانتباه المكانية (20×20 Ground-Truth Spatial Heatmaps)
+توضح كيفية تحويل صناديق إحاطة الناجين إلى خرائط انتباه مكانية (`20×20`) بهالة حرارية غاوسية لتوجيه الشبكات الثلاث نحو مواقع الأحياء وتصفير الخلفيات الخالية:
+![Sample Thermal Heatmaps](sample_thermal_heatmaps.png)
+
+### 2. منحنيات التعلم عبر المعماريات الثلاث (Multi-Scale Training & Validation Curves Across All Three Backbones)
+توضح استقرار التدريب وهبوط الخسارة المشتركة (التصنيف + التحديد المكاني `20×20`) وارتفاع الدقة عبر مرحلتي استخلاص الخصائص والضبط الدقيق (`Warmup Fine-Tuning`) لكل من `MobileNetV2` و `DenseNet121` و `ResNet50V2`:
 ![Learning Curves](box_guided_learning_curves.png)
 
-### 2. مصفوفة الالتباس ومقارنة منحنيات الكفاءة (Confusion Matrix & ROC Comparison)
-تُظهر مصفوفة الالتباس اكتشاف 342 ناجياً وتصنيف 202 مشهد تضاريس خالية بدقة، مع مقارنة منحنيات `ROC` للمعماريات الثلاث والاتحاد الثلاثي:
+### 3. مصفوفة الالتباس ومقارنة منحنيات الكفاءة (Confusion Matrix & ROC Comparison)
+تُظهر مصفوفة الالتباس النهائية (عند العتبة `0.43`) دقة **95.27%** واكتشاف **342 ناجياً من أصل 355**، مع مقارنة منحنيات `ROC` للمعماريات الثلاث والاتحاد الثلاثي:
 ![Evaluation Metrics](box_guided_evaluation_metrics.png)
 
-### 3. محاكاة الفحص الميداني اللحظي للدرون (Live 4-View TTA Inference Demo)
-استعراض حي لتنبؤات الاتحاد الثلاثي على عينات عشوائية من مجموعة الاختبار بدرجات ثقة عالية جداً:
+### 4. محاكاة الفحص الميداني اللحظي للدرون (Live 4-View TTA Inference Demo - 320×320)
+استعراض حي لتنبؤات الاتحاد الثلاثي على 8 عينات اختبار (تطابق صحيح بنسبة 100% لجميع العينات الثماني بدرجات ثقة عالية جداً):
 ![Inference Demo](box_guided_inference_demo.png)
 
 ---
 
 ## 🗂️ هيكل المستودع (Repository Structure)
 * `HIT_UAV_BoxGuided_TriEnsemble.ipynb`: دفتر الكود الكامل شاملاً معالجة البيانات، بناء خرائط الانتباه `20×20`، تدريب الاتحاد الثلاثي، والتقييم الرباعي `4-View TTA`.
-* `box_guided_learning_curves.png`: منحنيات الدقة والخسارة لمرحلتي التدريب.
-* `box_guided_evaluation_metrics.png`: مصفوفة الالتباس ومقارنة منحنيات `ROC-AUC` على مجموعة الاختبار.
-* `box_guided_inference_demo.png`: لوحة نتائج الفحص البصري لعينات الاختبار.
+* `sample_thermal_heatmaps.png`: استعراض الصور الحرارية وخرائط أهداف الانتباه المكاني `20×20`.
+* `box_guided_learning_curves.png`: منحنيات الدقة والخسارة الشاملة للمعماريات الثلاث.
+* `box_guided_evaluation_metrics.png`: مصفوفة الالتباس النهائية (`95.27%`) ومقارنة منحنيات `ROC-AUC`.
+* `box_guided_inference_demo.png`: لوحة نتائج الفحص البصري لعينات الاختبار (`320×320`).
 * `README.md`: التوثيق الشامل للمشروع والمنهجية والنتائج.
 
 ---
